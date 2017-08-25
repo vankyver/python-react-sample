@@ -1,9 +1,11 @@
 import React from 'react';
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, IndexRedirect, browserHistory, hashHistory } from 'react-router'
 
 import BasePage from './pages/Base'
-import Tasks from './pages/Tasks'
-import Other from './pages/Other'
+import BasicTable from './pages/BasicTable'
+import ImagePage from './pages/ImagePage'
+
+import styles from '../styles/main.scss';
 
 export default class App extends React.Component {
 
@@ -12,16 +14,14 @@ export default class App extends React.Component {
      * to prevent redrawing of whole page component
      */
     routes = [
-        <Route key="root" path="/" component={BasePage}>
-            <Route path="/" component={Tasks}/>
-            <Route path="tasks" component={Tasks}/>
-            <Route path="otherpage" component={Other}/>
-            <Route path="*" component={Tasks}/>
+        <Route key="root" component={BasePage}>
+            <Route path="/" component={BasicTable}/>
+            <Route path="/img" component={ImagePage}/>
         </Route>
     ];
 
     render() {
-        return <Router history={browserHistory}>
+        return <Router history={hashHistory}>
             {this.routes}
         </Router>
     }

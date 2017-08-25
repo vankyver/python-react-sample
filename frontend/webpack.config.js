@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HappyPack = require('happypack');
 
 const PRODUCTION = process.argv.indexOf('-p') !== -1;
 
@@ -33,7 +34,8 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         loader: 'babel',
-        query: { presets: ['es2015', 'stage-0', 'react'] }
+        loaders: [ 'happypack/loader' ],
+        query: { presets: ['es2015', 'stage-1', 'react'] }
       }, {
         test: /(\.scss|\.css)$/,
         loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
@@ -44,8 +46,8 @@ module.exports = {
   postcss: [autoprefixer],
 
   sassLoader: {
-    data: '@import "theme/_config.scss";',
-    includePaths: [path.resolve(__dirname, './src/app')]
+    data: '@import "src/styles/main.scss";',
+    includePaths: [path.resolve(__dirname, './src/')]
   },
 
   plugins: [
@@ -60,6 +62,10 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
+
+    new HappyPack({
+        loaders: [ 'babel?presets[]=es2015' ],
+    }),
 
     /**
      * Public chunks

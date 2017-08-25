@@ -1,31 +1,56 @@
+
 import React from 'react';
+import {ListSubheader, Drawer, Paper, IconButton, IconMenu, Toolbar, List, Divider, ListItemIcon, Avatar} from 'material-ui';
 
-import Link from 'react-toolbox/lib/link';
-import AppBar from 'react-toolbox/lib/app_bar';
-import Navigation from 'react-toolbox/lib/navigation';
+import AppBar from 'material-ui/AppBar';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import MenuIcon from 'material-ui-icons/Menu';
 
-export default class Base extends React.Component {
+import Menu from './Menu';
 
-    onLinkClick(pathname) {
-        this.context.router.push({pathname})
-    }
+class Base extends React.Component {
 
-    render() {
-        return <div>
+    state = {
+        drawerOpen: false
+    };
 
-            <AppBar title='React Toolbox' leftIcon='menu'>
-                <Navigation type='horizontal'>
-                    <Link active label='Tasks' icon='inbox' onClick={()=>this.onLinkClick('tasks')}  />
-                    <Link label='Others' icon='person' onClick={()=>this.onLinkClick('otherpage')} />
-                </Navigation>
+    handleOpen = () => this.setState({drawerOpen: !this.state.drawerOpen});
+
+    render = () => <div style={{display: 'flex', height: '100%'}}>
+
+        <Paper style={{maxWidth: 250, height: '100%', width: '100%'}}>
+            <Menu/>
+        </Paper>
+
+        <div style={{flex: 1}}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton color="contrast" aria-label="Menu" onClick={this.handleOpen}>
+                        <MenuIcon />
+                    </IconButton>
+
+                    <Drawer
+                        anchor="right"
+                        open={this.state.drawerOpen}
+                        onRequestClose={this.handleOpen}
+                        onClick={this.handleOpen}>
+                        <Menu/>
+                    </Drawer>
+
+                    <Typography type="title" color="inherit" style={{flex: 1}}>
+                        Title
+                    </Typography>
+
+                    <Button color="contrast">Login</Button>
+                </Toolbar>
             </AppBar>
 
             {this.props.children}
 
         </div>
-    }
+
+    </div>
 }
 
-Base.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
+export default Base;
