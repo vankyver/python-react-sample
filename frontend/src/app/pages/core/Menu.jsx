@@ -25,7 +25,8 @@ const MenuConfig = [
         icon: <GraphicIcon/>,
         primaryText: 'Graphic',
         secondaryText: '',
-        location: '/img'
+        location: '/img',
+        children: []
     },
     {
         icon: <MemoryIcon/>,
@@ -36,10 +37,13 @@ const MenuConfig = [
 ];
 
 const MenuItems = () => MenuConfig.map(i =>
-    <Link to={i.location}>
-        <ListItem key={i.primaryText} button>
+    <Link key={i.primaryText} to={i.location}>
+        <ListItem button>
             <ListItemIcon>{i.icon}</ListItemIcon>
             <ListItemText primary={i.primaryText} secondary={i.secondaryText}/>
+            {i.children && <List>
+
+            </List>}
         </ListItem>
     </Link>
 );

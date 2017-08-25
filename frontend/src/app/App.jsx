@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, IndexRedirect, browserHistory, hashHistory } from 'react-router'
 
-import BasePage from './pages/Base'
+import BasePage from './pages/core/Base'
 import BasicTable from './pages/BasicTable'
 import ImagePage from './pages/ImagePage'
 
